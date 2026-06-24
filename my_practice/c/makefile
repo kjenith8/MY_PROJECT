@@ -1,14 +1,16 @@
 .PHONY : clean
 
 SRC := $(wildcard src/*.c)
-OBJ := $(SRC:.c=.o)
+OBJ := $(SRC:src/%.c=build/%.o)
 
-main : $(SRC)
-	gcc $(SRC) -o build/main
+
+
+main : $(OBJ)
+	gcc $(OBJ) -o build/main
 	./build/main
 
-#$(OBJ) : $(SRC)
-#	gcc -c 
+build/%.o: src/%.c
+	gcc -c $< -o $@ 
 
 clean:
-	rm -f build/main
+	rm -f build/main build/*.o
